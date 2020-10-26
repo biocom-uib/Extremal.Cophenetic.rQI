@@ -736,13 +736,26 @@ rQI(B_n) = rQI(B_{\lceil n/2\rceil}) + rQI(B_{\lfloor n/2\rfloor}) + \binom{\lce
 ##  [985] 16730037444 16798173390 16866491130 16935051919 17003779989 17072752095
 ##  [991] 17141907475 17211307880 17280871880 17350681896 17420676672 17490918457
 ##  [997] 17561330247 17631990041 17702836087 17773931134</code></pre>
-<p>Unfortunately, we cannot check directly (and without cheating, like for instance forcing the results to be integers) with the <code>==</code> function the equality of both sequences, because of floating point calculations:</p>
+<p>Unfortunately, in this case we cannot check directly with the <code>==</code> function the equality of both sequences, because of floating point calculations in our definition of <code>Max.rQI</code>:</p>
 <pre class="r"><code>Max.rQI.Rec(10)</code></pre>
 <pre><code>##  [1]   0   0   0   1   3   9  19  38  64 106</code></pre>
 <pre class="r"><code>sapply(1:10,FUN=Max.rQI)</code></pre>
 <pre><code>##  [1]   0   0   0   1   3   9  19  38  64 106</code></pre>
 <pre class="r"><code>Max.rQI.Rec(10)==sapply(1:10,FUN=Max.rQI)</code></pre>
 <pre><code>##  [1]  TRUE  TRUE  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE</code></pre>
+<p>But we can check their equality by first rounding to integers the values of the second sequence (and noting that they are actually integer numbers, up to floating point approximations).</p>
+<pre class="r"><code>Max.rQI.Rec(10)</code></pre>
+<pre><code>##  [1]   0   0   0   1   3   9  19  38  64 106</code></pre>
+<pre class="r"><code>sapply(1:10,FUN=Max.rQI)</code></pre>
+<pre><code>##  [1]   0   0   0   1   3   9  19  38  64 106</code></pre>
+<pre class="r"><code>Max.rQI.Rec(10)</code></pre>
+<pre><code>##  [1]   0   0   0   1   3   9  19  38  64 106</code></pre>
+<pre class="r"><code>round(sapply(1:10,FUN=Max.rQI))</code></pre>
+<pre><code>##  [1]   0   0   0   1   3   9  19  38  64 106</code></pre>
+<pre class="r"><code>Max.rQI.Rec(10)-round(sapply(1:10,FUN=Max.rQI))</code></pre>
+<pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0</code></pre>
+<pre class="r"><code>max(Max.rQI.Rec(1000)-round(sapply(1:1000,FUN=Max.rQI)))</code></pre>
+<pre><code>## [1] 0</code></pre>
 <p>Their log-log plot is</p>
 <pre class="r"><code>plot(4:1000,Max.rQI.Rec(1000)[-(1:3)],pch=20,cex=0.2,xlab=&quot;n&quot;,
      ylab=expression(rQI(B[n])),main=&quot;Maximum values of the Rooted Quartet index&quot;,log=&quot;xy&quot;)</code></pre>

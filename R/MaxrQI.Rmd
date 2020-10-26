@@ -47,12 +47,23 @@ For instance, the first 1000 values of $rQI(B_k)$ computed with our closed expre
 sapply(1:1000,FUN=Max.rQI)
 ```
 
-Unfortunately, we cannot check directly (and without cheating, like for instance forcing the results to be integers) with the `==` function the equality of both sequences, because of floating point calculations:
+Unfortunately, in this case we cannot check directly with the `==` function the equality of both sequences, because of floating point calculations in our definition of `Max.rQI`:
 
 ```{r}
 Max.rQI.Rec(10)
 sapply(1:10,FUN=Max.rQI)
 Max.rQI.Rec(10)==sapply(1:10,FUN=Max.rQI)
+```
+
+But we can check their equality by first rounding to integers the values of the second sequence (and noting that they are actually integer numbers, up to floating point approximations).
+
+```{r}
+Max.rQI.Rec(10)
+sapply(1:10,FUN=Max.rQI)
+Max.rQI.Rec(10)
+round(sapply(1:10,FUN=Max.rQI))
+Max.rQI.Rec(10)-round(sapply(1:10,FUN=Max.rQI))
+max(Max.rQI.Rec(1000)-round(sapply(1:1000,FUN=Max.rQI)))
 ```
 
 
