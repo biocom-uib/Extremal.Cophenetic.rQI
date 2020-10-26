@@ -20,9 +20,9 @@ x[i]=x[floor(i/2)]+x[ceiling(i/2)]+choose(floor(i/2),2)+
 x}
 ```
 
-For instance, the first 100 values of $\Phi(B_k)$ according to this recurrence are:
+For instance, the first 1000 values of $\Phi(B_k)$ according to this recurrence are:
 ```{r}
-Min.Phi.Rec(100)
+Min.Phi.Rec(1000)
 ```
 
 The function `Min.Ph` applied to any positive natural number `n`
@@ -43,10 +43,16 @@ For instance, $\Phi(B_{10^6})$ is
 ```{r}
 Min.Phi(10^6)
 ```
-and the first 100 values of $\Phi(B_k)$ computed with our closed expression are
+and the first 1000 values of $\Phi(B_k)$ computed with our closed expression are
 ```{r}
-sapply(1:100,FUN=Min.Phi)
+sapply(1:1000,FUN=Min.Phi)
 ```
+
+Both sequence are equal:
+```{r}
+as.logical(min(sapply(1:1000,FUN=Min.Phi)==Min.Phi.Rec(1000)))
+```
+
 
 Their log-log plot is
 ```{r,out.width="90%",scale=2}

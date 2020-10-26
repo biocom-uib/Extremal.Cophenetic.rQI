@@ -19,9 +19,9 @@ Max.rQI.Rec=function(n){
   x}
 ```
 
-For instance, the first 100 values of $rQI(B_k)$ according to this recurrence are:
+For instance, the first 1000 values of $rQI(B_k)$ according to this recurrence are:
 ```{r}
-Max.rQI.Rec(100)
+Max.rQI.Rec(1000)
 ```
 
 The function `Max.rQI` applied to any positive natural number `n`
@@ -42,14 +42,21 @@ Max.rQI=function(n){
   rQIB}
 ```
 
-For instance, $rQI(B_{1000})$ is
+For instance, the first 1000 values of $rQI(B_k)$ computed with our closed expression are
 ```{r}
-Max.rQI(1000)
+sapply(1:1000,FUN=Max.rQI)
 ```
-and the first 100 values of $rQI(B_k)$ computed with our closed expression are
+
+Unfortunately, we cannot check directly (and without cheating, like for instance forcing the results to be integers) with the `==` function the equality of both sequences, because of floating point calculations:
+
 ```{r}
-sapply(1:100,FUN=Max.rQI)
+Max.rQI.Rec(10)
+sapply(1:10,FUN=Max.rQI)
+Max.rQI.Rec(10)==sapply(1:10,FUN=Max.rQI)
 ```
+
+
+
 
 Their log-log plot is
 ```{r,out.width="90%",scale=2}
