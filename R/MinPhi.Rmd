@@ -1,0 +1,56 @@
+---
+title: "Minimum values of the Total Cophenetic index"
+output: html_document
+---
+
+The function `Min.Phi.Rec` applied to any positive natural number `n` 
+computes the vector of values $\Phi(B_k)$, for $k=1,...,n$
+by means of the recurrence
+$$
+\Phi(B_n)= \Phi(B_{\left\lceil{n}/{2}\right\rceil}) +\Phi(B_{\left\lfloor{n}/{2}\right\rfloor})+\binom{\left\lceil{n}/{2}\right\rceil}{2}+\binom{\left\lfloor{n}/{2}\right\rfloor}{2}
+$$
+
+```{r}
+Min.Phi.Rec=function(n){
+x=rep(0,n)
+for (i in 2:n){
+x[i]=x[floor(i/2)]+x[ceiling(i/2)]+choose(floor(i/2),2)+
+  choose(ceiling(i/2),2)
+}
+x}
+```
+
+For instance, the first 100 values of $\Phi(B_k)$ according to this recurrence are:
+```{r}
+Min.Phi.Rec(100)
+```
+
+The function `Min.Ph` applied to any positive natural number `n`
+computes the value $\Phi(B_n)$ using its closed formula given in our paper "The total cophenetic and rooted quartet indices of the maximally balanced trees" (Theorem 3).
+
+```{r}
+Min.Phi=function(n){
+  BD=floor(log2(n))+1
+  VV=as.integer(intToBits(n))[1:BD]
+  M=(0:(BD-1))[VV==1]
+  F=function(i){2^(M[i]-1)*(M[i]+2*(length(M)-i))}
+  PhiB=choose(n,2)-sum(sapply(1:length(M),FUN=F))
+  PhiB}
+```
+
+For instance, $\Phi(B_{10^6})$ is
+
+```{r}
+Min.Phi(10^6)
+```
+and the first 100 values of $\Phi(B_k)$ computed with our closed expression are
+```{r}
+sapply(1:100,FUN=Min.Phi)
+```
+
+Their log-log plot is
+```{r,out.width="90%",scale=2}
+plot(3:1000,Min.Phi.Rec(1000)[-(1:2)],pch=20,cex=0.2,xlab="n",
+     ylab=expression(Phi(B[n])),main="Minimum values of the Total Cophenetic index",
+     log="xy")
+```
